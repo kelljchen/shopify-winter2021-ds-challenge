@@ -35,7 +35,7 @@ I calculated the price of product by dividing the order_amount by total_items. A
 * 3rd Quartile: 169
 * Max: 25725
 
-Therefore, from exploring the data, we know that the high average order calculation of $3,145.13 is due to simply calculating the mean of the order totals without examining outliers such as large bulk orders and stores that may sell more expensive products.
+**Therefore, from exploring the data, we know that the high average order calculation of $3,145.13 is due to simply calculating the mean of the order totals without examining outliers such as large bulk orders and stores that may sell more expensive products.**
 
 ### b. What metric would be better to report?
 
