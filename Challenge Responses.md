@@ -2,7 +2,7 @@
 ----
 ### Question 1
 
-#### a. What is wrong with the calculation?
+### a. What is wrong with the calculation?
 From initial analysis of the dataset, it\'s clear that the calculation of $3145.13 is simply the mean of the order_amount, which refers to the overall total. To begin to analyze what is wrong with this calculation, I calculated the interquartile range and plotted the order amount against the size of the order.
 
 **Interquartile Range:**
@@ -37,7 +37,7 @@ I calculated the price of product by dividing the order_amount by total_items. A
 
 Therefore, from exploring the data, we know that the high average order calculation of $3,145.13 is due to simply calculating the mean of the order totals without examining outliers such as large bulk orders and stores that may sell more expensive products.
 
-#### b. What metric would be better to report?
+### b. What metric would be better to report?
 
 Median would be a much better metric to report. We prefer to avoid removing data as much as possible to retain the size and validity of the sample, particularly when we know that the data is accurately reported. Additionally, median is less sensitive to outlier data and provides a better measure of central tendency within a dataset without necessarily requiring us to remove outlier data.
 
@@ -47,7 +47,7 @@ A more conservative approach that involves dropping less data would be to only d
 
 Outside of order totals, I would also consider looking at order size. When examining how order size varied with the price of shoes, the median and mean both stayed consistent at 2 pairs per order when removing the bulk order and expensive stock rows, suggesting that an appropriate estimate could be multiplying each store's product price by 2 and taking the average.
 
-#### c. What is its value?
+### c. What is its value?
 In this case, the median order value is **$284** for the entire dataset. This is the value I would recommend using as an estimate for a typical order total.
 
 The recalculated average order value is **$293.72** if we exclude all orders with an amount greater than $730.50. In doing so, this calculation drops 141 orders from the dataset, which are representating really big orders (typically more than 4 pairs of shoes) and shops that sell uniquely expensive stock.
@@ -57,7 +57,7 @@ The recalculated average order value would be **302.58** if we only exclude the 
 -----
 ### Question 2
 
-#### a. How many orders were shipped by Speedy Express in total?
+### a. How many orders were shipped by Speedy Express in total?
 **54 unique orders** were shipped by Speedy Express in total. I joined Orders and Shippers on the common variable of ShipperID. I then utilized the COUNT function and DISTINCT keyword to identify the number of unique orders, using the WHERE command to isolate the query to only consider orders that were shipped by "Speedy Express."
 
 ```sql
@@ -67,7 +67,7 @@ SELECT COUNT(DISTINCT OrderID) AS speedy_shipped
     ON Orders.ShipperID = Shippers.ShipperID
     WHERE Shippers.ShipperName = "Speedy Express"
 ```
-#### b. What is the last name of the employee with the most orders?
+### b. What is the last name of the employee with the most orders?
 The last name of the employee with the most orders is **"Peacock."** This was determinted by joining the Orders and Employees tables, grouping the table by EmployeeID and then aggregating the number of orders with the COUNT function. I then selected the LastName and order count corresponding to the maximum number of orders.
 
 ```
@@ -81,7 +81,7 @@ WITH T AS (SELECT Employees.LastName,
     WHERE num_orders = (SELECT MAX(num_orders) FROM T)
 ```
 
-#### c. What product was ordered the most by customers in Germany?
+### c. What product was ordered the most by customers in Germany?
 
 **Boston Crab Meat (Product ID 40)** was ordered the most by customers in Germany. First, I joined Orders, OrderDetails, Products, and Customers to ensure I had all the variables needed for the query. A left join was used on products to ensure that all orders were retained in the query even if a product match could not be found. Then, I grouped the table by ProductID so I could aggregate the data using SUM to find the number of sales each product had. The WHERE function was used to extract only orders placed by customers in Germany. WITH was used to isolate the product with the most orders using the MAX function.
 
