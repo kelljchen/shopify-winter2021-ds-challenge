@@ -78,7 +78,7 @@ WITH T AS (SELECT Employees.LastName,
             ON Employees.EmployeeID = Orders.EmployeeID
             GROUP BY Employees.EmployeeID)
 	SELECT * FROM T
-    WHERE num_orders = (SELECT MAX(num_orders) FROM T)
+	WHERE num_orders = (SELECT MAX(num_orders) FROM T)
 ```
 
 ### c. What product was ordered the most by customers in Germany?
