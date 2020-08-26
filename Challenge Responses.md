@@ -52,7 +52,7 @@ In this case, the median order value is **$284** for the entire dataset. This is
 
 The recalculated average order value is **$293.72** if we exclude all orders with an amount greater than $730.50. In doing so, this calculation drops 141 orders from the dataset, which are representating really big orders (typically more than 4 pairs of shoes) and shops that sell uniquely expensive stock.
 
-The recalculated average order value would be **302.58** if we only exclude the bulk orders (2000 pairs and more) and expensive stock ($25,725 per pair).
+The recalculated average order value would be **$302.58** if we only exclude the bulk orders (2000 pairs and more) and expensive stock ($25,725 per pair).
 
 -----
 ### Question 2
