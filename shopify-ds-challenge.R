@@ -36,7 +36,11 @@ median(shopify$order_amount)
 
 # Average total order amount without all outliers
 mean(shopify[shopify$order_amount<730.5,]$order_amount)
+sd(shopify[shopify$order_amount<730.5,]$order_amount)
 
 # Average total order amount excluding only two groups, 
 # without considering definition of outlier
 mean(shopify[shopify$product_price < 25725 & shopify$total_items < 2000,]$order_amount)
+
+# Calculating average by multiplying average product price by two
+mean(shopify[shopify$product_price < 25725 & shopify$total_items < 2000,]$product_price) * 2
