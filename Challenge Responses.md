@@ -82,32 +82,35 @@ That being said, the mean would also be appropriate if we clean the data up.
 
 * Outside of order totals, I would also consider looking at order size. When examining how order size varied with the price of shoes, the median and mean both stayed consistent at 2 pairs per order when removing the bulk order and expensive stock rows, suggesting that an appropriate estimate could be multiplying each store's product price by 2 and taking the average.
 
-Finally, I would also look at the standard deviation to give a better idea of variability. While the mean and median give us a measure of centrality, knowing the standard deviation can help us analyze the variability in the typical order.
+Finally, I would also look at the standard deviation to give a better idea of variability. While the mean and median give us a measure of centrality, knowing the standard deviation can help us analyze the variability in the typical order total.
 
 Using median, mean, and standard deviation can allow us to have a better idea of variability in the overage order 
 
 ### c. What is its value?
-```{r}
-# Calculate statistics
+In this case, the median order value is **$284** for the entire dataset. This is the value I would recommend using as an estimate for a typical order total.
 
+Other potential metrics:
+The recalculated average order value is **$293.72** if we exclude all orders with an amount greater than $730.50. In doing so, this calculation drops 141 orders from the dataset, which are representating really big orders (typically more than 4 pairs of shoes) and shops that sell uniquely expensive stock. The standard deviation of this same sample is **$144.4534.**
+
+The recalculated average order value would be **$302.58** if we only exclude the bulk orders (2000 pairs and more) and expensive stock ($25,725 per pair).
+
+If we choose to generate an average by multiplying the average product price by two, the average order value would be **303.5771**.
+
+```{r}
 # Median
 median(shopify$order_amount)
 
 # Average total order amount without all outliers
 mean(shopify[shopify$order_amount<730.5,]$order_amount)
+sd(shopify[shopify$order_amount<730.5,]$order_amount)
 
 # Average total order amount excluding only two groups, 
 # without considering definition of outlier
 mean(shopify[shopify$product_price < 25725 & shopify$total_items < 2000,]$order_amount)
+
+# Calculating average by multiplying average product price by two
+mean(shopify[shopify$product_price < 25725 & shopify$total_items < 2000,]$product_price) * 2
 ```
-In this case, the median order value is **$284** for the entire dataset. This is the value I would recommend using as an estimate for a typical order total.
-
-Other potential metrics:
-The recalculated average order value is **$293.72** if we exclude all orders with an amount greater than $730.50. In doing so, this calculation drops 141 orders from the dataset, which are representating really big orders (typically more than 4 pairs of shoes) and shops that sell uniquely expensive stock.
-
-The recalculated average order value would be **$302.58** if we only exclude the bulk orders (2000 pairs and more) and expensive stock ($25,725 per pair).
-
-If we choose to generate an average by multiplying the average product price by two, the average order value would be **303.5771**.
 
 -----
 ### Question 2
