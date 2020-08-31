@@ -45,6 +45,18 @@ head(shopify[shopify$order_amount==704000,])
 shopify2 <- shopify[shopify$order_amount!=704000,]
 plot(shopify2$total_items,shopify2$order_amount, 
      xlab="Order Size", ylab="Order Total Amount")
+     
+# Identify the shoes that sell for $25,725
+shopify["product_price"] = shopify$order_amount/shopify$total_items
+summary(shopify$product_price) # Max is $25,725, likely a luxury shoe seller?
+
+
+iqr = as.double(quantile(shopify$order_amount)[4] - quantile(shopify$order_amount)[2])
+upper = 3*(iqr) + as.double(quantile(shopify$order_amount)[4])
+lower = as.double(quantile(shopify$order_amount)[2]) - 3*(iqr)
+
+# Plot while excluding extreme outliers 
+plot(shopify[shopify$order_amount<1071,]$order_amount, xlab="Order Size", ylab="Order Total")
 ```
 ![scatterplot1](images/shopify_plot2.png)
 
@@ -75,6 +87,19 @@ Finally, I would also look at the standard deviation to give a better idea of va
 Using median, mean, and standard deviation can allow us to have a better idea of variability in the overage order 
 
 ### c. What is its value?
+```{r}
+# Calculate statistics
+
+# Median
+median(shopify$order_amount)
+
+# Average total order amount without all outliers
+mean(shopify[shopify$order_amount<730.5,]$order_amount)
+
+# Average total order amount excluding only two groups, 
+# without considering definition of outlier
+mean(shopify[shopify$product_price < 25725 & shopify$total_items < 2000,]$order_amount)
+```
 In this case, the median order value is **$284** for the entire dataset. This is the value I would recommend using as an estimate for a typical order total.
 
 Other potential metrics:
