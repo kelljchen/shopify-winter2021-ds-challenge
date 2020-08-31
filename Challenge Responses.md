@@ -1,4 +1,5 @@
 ### Winter 2021 Shopify Data Science Intern Challenge
+#### Kelly Chen
 #### Language Used: R
 ----
 ### Question 1
@@ -27,7 +28,7 @@ plot(shopify$total_items,shopify$order_amount,
 
 ![scatterplot1](/images/shopify_plot1.png)
 
-Immediately, we notice that the highest order total is 704000 and that the median of $284 is much lower than $3145.20. This suggests that there are a few outliers in the data that are pulling the mean higher. Means are typically more sensitive to outliers than other comparable measures of centrality.
+Immediately, we notice that the highest order total is $704000 and that the median of $284 is much lower than $3145.20. This suggests that there are a few outliers in the data that are pulling the mean higher. Means are typically more sensitive to outliers than other comparable measures of centrality.
 
 When we pinpoint these orders, we find that $704000 refers to bulk orders of 2000 pairs of shoes valued at $352 each. This is likely a wholesale buyer that may be buying stock for their own store. Since this is a unique buying behavior and extreme outlier to the data (extreme outliers fall outside [-518, 1071]), for purposes of calculating an average order value that more accurately represents the average consumer, I chose to exclude these rows from the calculation. For now, I chose to only exclude extreme outliers to examine outliers that may have different explanations besides a bulk order.
 
@@ -90,7 +91,8 @@ Using median, mean, and standard deviation can allow us to have a better idea of
 In this case, the median order value is **$284** for the entire dataset. This is the value I would recommend using as an estimate for a typical order total.
 
 Other potential metrics:
-The recalculated average order value is **$293.72** if we exclude all orders with an amount greater than $730.50. In doing so, this calculation drops 141 orders from the dataset, which are representating really big orders (typically more than 4 pairs of shoes) and shops that sell uniquely expensive stock. The standard deviation of this same sample is **$144.4534.**
+
+The recalculated average order value is **$293.72** if we exclude all orders that are classified as outliers (amount greater than $730.50). In doing so, this calculation drops 141 orders from the dataset, which are representating really big orders (typically more than 4 pairs of shoes) and shops that sell uniquely expensive stock. The standard deviation of this same sample is **$144.4534.**
 
 The recalculated average order value would be **$302.58** if we only exclude the bulk orders (2000 pairs and more) and expensive stock ($25,725 per pair).
 
