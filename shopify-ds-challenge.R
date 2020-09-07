@@ -29,6 +29,19 @@ lower = as.double(quantile(shopify$order_amount)[2]) - 3*(iqr)
 # Plot while excluding extreme outliers 
 plot(shopify[shopify$order_amount<1071,]$order_amount, xlab="Order Size", ylab="Order Total")
 
+# Sampling from the data 
+means <- numeric()
+# Eliminating outliers
+shopify3 <- shopify[shopify$order_amount < 730.5,]
+# Set seed for reproducibility of data
+set.seed(100)
+for(i in 1:1000){
+  samp <- sample(nrow(shopify3), 100, replace=FALSE)
+  means <- c(means, mean(shopify3[samp,]$order_amount))
+}
+mean(means)
+sd(means)
+
 # Calculate statistics
 
 # Median
