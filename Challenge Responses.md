@@ -76,8 +76,25 @@ I calculated the price of product by dividing the order_amount by total_items. A
 
 * **Median** would be a much better metric to report. We prefer to avoid removing data as much as possible to retain the size and validity of the sample, particularly when we know that the data is accurately reported. Additionally, median is less sensitive to outlier data and provides a better measure of central tendency within a dataset without necessarily requiring us to remove outlier data. Reporting the median would allow us to move forward with our analysis using the entire sample.
 
-That being said, the mean would also be appropriate if we clean the data up.
+That being said, the mean would also be appropriate if we clean the data up and employ a sampling methodology.
 * If we still want to calculate an **average order value**, another option is to exclude the outliers that are skewing the mean calculation and recalculate with the new sample, understanding that we have removed points of variability within the sample. This would mean excluding all data that has an order_amount greater than $730.5, using the definition of an outlier as being either greater than Q3+1.5*(Q3-Q1) or less than Q1+1.5*(Q3-Q1). Before doing this, I also explored the order size and found that most big outlier data points are customers purchasing over 4 pairs of shoes, comprising 104 orders out of the 5000 in the dataset. The 141 orders that are outliers make up around 3% of the total dataset. For the purpose of calculating a mean, it would be acceptable to exclude said datapoints. 
+
+* For a more complete approach, I would also consider taking repeated random samples of the data, averaging each sample, and then taking the average of the means. This calculation employes the idea of the **Central Limit Theorem**, where we know that given a dataset with an unknown distribution, the sample means will approximate towards a normal distribution. For this situation, I chose to take 1000 samples of size 100. This would also give us a lower standard deviation and a more precise estimate of the average order value.
+
+```{r}
+# Sampling from the data 
+means <- numeric()
+# Eliminating outliers
+shopify3 <- shopify[shopify$order_amount < 730.5,]
+# Set seed for reproducibility of data
+set.seed(100)
+for(i in 1:1000){
+  samp <- sample(nrow(shopify3), 100, replace=FALSE)
+  means <- c(means, mean(shopify3[samp,]$order_amount))
+}
+mean(means)
+sd(means)
+```
 
 * A more conservative approach that involves dropping less data would be to only drop the bulk orders and the store selling shoes for $25,725.
 
@@ -88,15 +105,19 @@ Finally, I would also look at the standard deviation to give a better idea of va
 Using median, mean, and standard deviation can allow us to have a better idea of variability in the overage order 
 
 ### c. What is its value?
-In this case, the median order value is **$284** for the entire dataset. This is the value I would recommend using as an estimate for a typical order total.
+In this case, the **median order value is $284** for the entire dataset. This is the value I would recommend using as an estimate for a typical order total if we had limited time and resources to conduct a sampling methodology of all the sneaker shops.
 
 Other potential metrics:
 
-The recalculated average order value is **$293.72** if we exclude all orders that are classified as outliers (amount greater than $730.50). In doing so, this calculation drops 141 orders from the dataset, which are representating really big orders (typically more than 4 pairs of shoes) and shops that sell uniquely expensive stock. The standard deviation of this same sample is **$144.4534.**
+The recalculated average order value is **$293.72** if we exclude all orders that are classified as outliers (amount greater than $730.50) and go directly to calculating the mean of the entire dataset. In doing so, this calculation drops 141 orders from the dataset, which are representating really big orders (typically more than 4 pairs of shoes) and shops that sell uniquely expensive stock. The standard deviation of this same sample is **$144.4534.**
 
-The recalculated average order value would be **$302.58** if we only exclude the bulk orders (2000 pairs and more) and expensive stock ($25,725 per pair).
+The recalculated average order value is **293.8** if we exclude all orders classified as outliers AND run a sampling methodology on the dataset. The standard deviation of these sample means is **14.09**.
 
-If we choose to generate an average by multiplying the average product price by two, the average order value would be **303.5771**.
+The recalculated average order value would be **$302.58** if we only exclude the bulk orders (2000 pairs and more) and expensive stock ($25,725 per pair) and do not exclude any other data points defined as outliers.
+
+If we choose to generate an average by multiplying the average product price by two (the average pairs of shoes purchased), the average order value would be **303.5771**.
+
+**Overall, from considering both the median and the mean, the average order value is likely to fall between $280-$308.** This was determined by considering the mean and standard deviation calculated from the sampling methodology, and from observing how the median falls within this range.
 
 ```{r}
 # Median
